@@ -1,1 +1,7 @@
-# demo-rust git init git add README.md git commit -m first commit git branch -M main git remote add origin git@github.com:zhaozhiwei1992/demo-rust.git git push -u origin main
+# 项目名称
+rust一些简单测试demo
+# 安装要求 
+## rust运行环境
+# 目录介绍
+## heap-stack
+主要测试rust中的所有权和借用
