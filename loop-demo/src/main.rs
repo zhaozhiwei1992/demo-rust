@@ -1,3 +1,4 @@
+#![allow(unused)]
 fn main() {
     test10();
     // test9();
