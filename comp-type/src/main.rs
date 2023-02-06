@@ -18,7 +18,51 @@ fn main() {
     // tuple_test15();
     // tuple_test16();
     // tuple_test17();
-    tuple_test18();
+    // tuple_test18();
+
+    // struct测试
+    // struct_test1();
+    struct_test2();
+
+    // 枚举测试
+
+    // 数组测试
+}
+
+struct Person {
+    name: String,
+    age: u8,
+    hobby: String
+}
+
+fn struct_test2() {
+    let age = 30;
+    let p = Person {
+        name: String::from("sunface"),
+        age: 18,
+        hobby: String::from("hobby")
+    };
+} 
+
+#[derive(Debug)]
+
+struct File {
+    name: String,
+    data: Vec<u8>,
+}
+
+fn struct_test1(){
+    let f1 = File {
+        name: String::from("f1.txt"),
+        data: Vec::new(),
+    };
+
+    // 这里使用&f1是因为如果直接使用f1,就会将所有权交出去，导致后续f1直接失效
+    let f1_name = &f1.name;
+    let f1_length = &f1.data.len();
+
+    println!("{:?}", f1);
+    println!("{} is {} bytes long", f1_name, f1_length);
 }
 
 fn tuple_test18(){
