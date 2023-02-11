@@ -22,13 +22,241 @@ fn main() {
 
     // struct测试
     // struct_test1();
-    struct_test2();
+    // struct_test2();
+    // struct_test3();
+    // struct_test4();
+    // struct_test5();
+    // struct_test6();
 
     // 枚举测试
+    // enum_test1();
+    // enum_test2();
+    // enum_test3();
+    // enum_test4();
+    // enum_test5();
+    enum_test6();
 
     // 数组测试
 }
 
+use crate::List::*;
+
+enum List {
+    // Cons: 链表中包含有值的节点，节点是元组类型，第一个元素是节点的值，第二个元素是指向下一个节点的指针
+    Cons(u32, Box<List>),
+    // Nil: 链表中的最后一个节点，用于说明链表的结束
+    Nil,
+}
+
+// 为枚举实现一些方法
+impl List {
+    // 创建空的链表
+    fn new() -> List {
+        // 因为没有节点，所以直接返回 Nil 节点
+        // 枚举成员 Nil 的类型是 List
+        Nil
+    }
+
+    // 在老的链表前面新增一个节点，并返回新的链表
+    fn prepend(self, elem: u32) -> List {
+        Cons(elem, Box::new(self))
+    }
+
+    // 返回链表的长度
+    fn len(&self) -> u32 {
+        match *self {
+            // 这里我们不能拿走 tail 的所有权，因此需要获取它的引用
+            Cons(_, ref tail) => 1 + tail.len(),
+            // 空链表的长度为 0
+            Nil => 0
+        }
+    }
+
+    // 返回链表的字符串表现形式，用于打印输出
+    fn stringify(&self) -> String {
+        match *self {
+            Cons(head, ref tail) => {
+                // 递归生成字符串
+                format!("{}, {}", head, tail.stringify())
+            },
+            Nil => {
+                format!("Nil")
+            },
+        }
+    }
+}
+
+fn enum_test6() {
+    // 创建一个新的链表(也是空的)
+    let mut list = List::new();
+
+    // 添加一些元素
+    list = list.prepend(1);
+    list = list.prepend(2);
+    list = list.prepend(3);
+
+    // 打印列表的当前状态
+    println!("链表的长度是: {}", list.len());
+    println!("{}", list.stringify());
+}
+
+fn enum_test5() {
+    let five = Some(5);
+    let six = plus_one(five);
+    let none = plus_one(None);
+
+    if let Some(n) = six {
+        println!("{}", n)
+    }
+
+    panic!("不要让这行代码运行！");
+} 
+
+fn plus_one(x: Option<i32>) -> Option<i32> {
+    match x {
+        None => None,
+        Some(i) => Some(i + 1),
+    }
+}
+
+
+// 枚举成员可以持有各种类型的值
+#[derive(Debug)]
+enum Message {
+    Quit,
+    Move { x: i32, y: i32 },
+    Write(String),
+    ChangeColor(i32, i32, i32),
+}
+
+fn enum_test4() {
+    let msgs: [Message; 3] = [
+        Message::Quit,
+        Message::Move{x:1, y:3},
+        Message::ChangeColor(255,255,0)
+    ];
+
+    for msg in msgs {
+        show_message(msg)
+    }
+} 
+
+fn show_message(msg: Message) {
+    println!("{:?}", msg);
+}
+
+fn enum_test3(){
+    let msg = Message::Move{x: 1, y: 1};
+
+    if let Message::Move{x: a, y: b} = msg {
+        assert_eq!(a, b);
+    } else {
+        panic!("不要让这行代码运行！");
+    }
+}
+
+fn enum_test2() {
+    let msg1 = Message::Move{x:1, y:2}; // 使用x = 1, y = 2 来初始化
+    let msg2 = Message::Write("hello, world!".to_string()); // 使用 "hello, world!" 来初始化
+} 
+
+// 创建枚举时，可以使用显式的整数设定枚举成员的值。
+enum Number {
+    Zero = 0,
+    One = 1,
+    Two,
+}
+
+enum Number1 {
+    Zero = 0,
+    One = 1,
+    Two,
+}
+
+// C语言风格的枚举定义
+enum Number2 {
+    Zero = 0,
+    One = 1,
+    Two = 2,
+}
+
+
+fn enum_test1() {
+    // 通过 `as` 可以将枚举值强转为整数类型
+    assert_eq!(Number::One as u8, Number1::One as u8);
+    assert_eq!(Number1::One as u8, Number2::One as u8);
+} 
+
+// 使用结构体更新语法基于一个结构体实例来构造另一个
+#[derive(Debug)]
+struct User {
+    active: bool,
+    username: String,
+    email: String,
+    sign_in_count: u64,
+}
+fn struct_test6() {
+    let u1 = User {
+        email: String::from("someone@example.com"),
+        username: String::from("sunface"),
+        active: true,
+        sign_in_count: 1,
+    };
+
+    let u2 = set_email(u1);
+
+    // 打印 debug 信息到标准错误输出 stderr
+    dbg!(&u2);
+
+    println!("{:?}", u2);
+}
+
+fn set_email(u: User) -> User {
+    User {
+        email: String::from("contact@im.dev"),
+        //username: u.username,
+        //active: u.active,
+        //sign_in_count: u.sign_in_count
+        // TypeScript 过来，肯定觉得啰嗦爆了：竟然手动把 user1 的三个字段逐个赋值给 user2，好在 Rust 为我们提供了 结构体更新语法
+        ..u
+    }
+}
+
+
+// 填空并修复错误
+struct Color(i32, i32, i32);
+struct Point(i32, i32, i32);
+fn struct_test4() {
+    let v = Point(0, 127, 255);
+    check_color(v);
+}
+
+fn check_color(p: Point) {
+    let Point(x, _, z) = p;
+    assert_eq!(x, 0);
+    assert_eq!(p.1, 127);
+    assert_eq!(z, 255);
+}
+
+struct Unit;
+
+trait SomeTrait {
+    // ...定义一些行为
+}
+
+// 我们并不关心结构体中有什么数据( 字段 )，但我们关心它的行为。
+// 使用没有任何字段的单元结构体，然后为它实现一些行为
+impl SomeTrait for Unit {  }
+
+fn struct_test3() {
+    let u = Unit;
+    do_something_with_unit(u);
+}
+
+// 填空，让代码工作
+fn do_something_with_unit(u: Unit) {   }
+
+#[derive(Debug)]
 struct Person {
     name: String,
     age: u8,
@@ -37,15 +265,35 @@ struct Person {
 
 fn struct_test2() {
     let age = 30;
-    let p = Person {
+    //  Rust 不允许我们将结构体的某个字段专门指定为可变的, 只能定义整个都是可变
+    let mut p = Person {
         name: String::from("sunface"),
         age: 18,
         hobby: String::from("hobby")
     };
+
+    p.age = 18;
+    p.name = String::from("sunfei");
+
+    println!("{:?}", p);
 } 
 
-#[derive(Debug)]
+fn struct_test5() {
+    println!("{:?}", build_person(String::from("zhangsan"), 18));
+}
 
+// 结构体字段初始化缩略语法可以减少一些重复代码
+// 类似es6 相同名字可以直接使用
+fn build_person(name: String, age: u8) -> Person {
+    // age, name和参数相同, 可直接引用
+    Person {
+        age,
+        name,
+        hobby: String::from("hobby")
+    }
+}
+
+#[derive(Debug)]
 struct File {
     name: String,
     data: Vec<u8>,
