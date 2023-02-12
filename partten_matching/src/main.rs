@@ -7,7 +7,78 @@ fn main() {
     // test6();
     // test7();
     // test8();
-    test9();
+    // test9();
+
+    // test10();
+    // test11();
+    // test12();
+    test13();
+}
+
+// 修复错误，尽量少地修改代码
+// 不要移除任何代码行
+fn test13() {
+    let mut v = String::from("hello,");
+    let r = &mut v;
+
+    match r {
+        mut value => value.push_str(" world!") 
+    }
+    println!("The value of v is {}", v);
+}
+
+// 让代码工作，必须使用 `split`
+fn test12() {
+    let num = Some(4);
+    let split = 5;
+    match num {
+        Some(x) if x < split => assert!(x < split),
+        Some(x) => assert!(x >= split),
+        None => (),
+    }
+}
+
+struct Point {
+    x: i32,
+    y: i32,
+}
+
+// @ 操作符可以让我们将一个与模式相匹配的值绑定到新的变量上
+// 当你既想要限定分支范围，又想要使用分支的变量时，就可以用 @ 来绑定到一个新的变量上，实现想要的功能。
+fn test11() {
+    // 填空，让 p 匹配第二个分支
+    let p = Point { x: 2, y: 10 };
+
+    match p {
+        // 只有x可以直接输出
+        Point { x, y: 0 } => println!("On the x axis at {}", x),
+        // 第二个分支
+        Point { x: 0..=5, y: y2@ (10 | 20 | 30) } => println!("On the y axis at {}", y2),
+        // 这里很神奇，为啥不能直接输出y
+        // Point { x: 0..=5, y: (10 | 20 | 30) } => println!("On the y axis at {}", y),
+        Point { x, y } => println!("On neither axis: ({}, {})", x, y),
+    }
+}
+
+fn test10(){
+    match_number(5);
+}
+
+// 使用 | 可以匹配多个值, 而使用 ..= 可以匹配一个闭区间的数值序列
+fn match_number(n: i32) {
+    match n {
+        // 匹配一个单独的值
+        1 => println!("One!"),
+        // 使用 `|` 填空，不要使用 `..` 或 `..=`
+        2 | 3 | 4 | 5 => println!("match 2 -> 5"),
+        // 匹配一个闭区间的数值序列
+        6..=10 => {
+            println!("match 6 -> 10")
+        },
+        _ => {
+            println!("match 11 -> +infinite")
+        }
+    }
 }
 
 // 无论是 match 还是 if let，他们都可以在模式匹配时覆盖掉老的值，绑定新的值:
