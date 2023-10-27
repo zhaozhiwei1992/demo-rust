@@ -8,11 +8,16 @@ fn main() {
     {                      // s 在这里无效，它尚未声明
         let s = "hello";   // 从此处起，s 是有效的
 
+        // 会自动复制字面量类型
+        let s2 = s;
         // 使用 s
+        println!("The value of s is {}, s2 is {}", s, s2);
     }                      // 此作用域已结束，s不再有效
     // println!("The value of s {}", s);
 
     let s1 = String::from("hello");
+    // let s2 = s1;
+    // 上述操作会将所有权交给s2,导致s1无效
     println!("The value of s1 {}", s1);
 
     // 看着像是浅copy, 实际上， s1从此失效, rust原则(一个值同时只能被一个变量所拥有，或者说一个值只能拥有一个所有者)
@@ -61,5 +66,5 @@ fn testClone(){
     let s1 = String::from("hello");
     let s2 = s1.clone();
 
-    println!("s1 = {}, s2 = {}", s1, s2);
+    println!("测试clone s1 = {}, s2 = {}", s1, s2);
 }

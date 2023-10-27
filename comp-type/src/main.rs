@@ -27,6 +27,7 @@ fn main() {
     // struct_test4();
     // struct_test5();
     // struct_test6();
+    // struct_test7();
 
     // 枚举测试
     // enum_test1();
@@ -34,9 +35,41 @@ fn main() {
     // enum_test3();
     // enum_test4();
     // enum_test5();
-    enum_test6();
+    // enum_test6();
+
+    //　泛型
+    generics_test1();
 
     // 数组测试
+}
+
+fn struct_test7() -> () {
+    // 测试结构体泛型
+    let integer = PointGeneric{x: 1, y: 1};
+    let float = PointGeneric{x: 1.1, y:1.5};
+    println!("integer struct x.value: {}", integer.x);
+    println!("float struct x.value: {}", float.x);
+}
+
+// 方法地狱
+fn add_i8(a:i8, b:i8) -> i8 {
+    a + b
+}
+
+fn add_i32(a:i32, b:i32) -> i32 {
+    a + b
+}
+
+// --> 使用泛型定义一个模板, 上述方法输入参数和返回值类型相同, 用T表示
+fn add<T: std::ops::Add<Output = T>>(a: T, b: T) -> T {
+    // 为了可以计算, T需要实现能求和的特征(接口)
+    a + b
+}
+
+fn generics_test1() -> () {
+    // 测试加法计算
+    println!("1 + 2 = {}", add_i8(1, 2));
+    println!("1 + 2 = {}", add(1, 2));
 }
 
 use crate::List::*;
@@ -299,6 +332,11 @@ struct File {
     data: Vec<u8>,
 }
 
+struct PointGeneric<T> {
+    x: T,
+    y: T
+}
+
 fn struct_test1(){
     let f1 = File {
         name: String::from("f1.txt"),
@@ -371,6 +409,11 @@ fn tuple_test13(){
     // 填空让代码工作
     // let t: (u8, __, i64, __, __) = (1u8, 2u16, 3i64, "hello", String::from(", world"));
     let t: (u8, u16, i64, &str, String) = (1u8, 2u16, 3i64, "hello", String::from(", world"));
+
+    let t98 = _t0;
+    // ?? 这里为什么不会发生所有权变化? 难道 tuple也是存储在栈上,内部进行可clone
+    let t99 = _t0;
+
 }
 
 fn test12(){
@@ -534,5 +577,8 @@ fn test1(){
     // let s: str = "hello, world";
     // 修正:
     let s1: &str = "hello, world";
+    // 看注释s1就是个引用, 又把引用给了s2, 而且带有&相当于借出, 不会设计到交出所有权
+    let s2 = s1;
     println!("The value of s1 {}", s1);
+    println!("The value of s1 {}", s2);
 }

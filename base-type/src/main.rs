@@ -1,8 +1,10 @@
 fn main() {
-    //number_type();
-    //bitwise_op();
-    //range();
-    char_type();
+    // number_type();
+    // 位运算
+    // bitwise_op();
+    // 遍历
+    // range();
+    // char_type();
     // bool_type();
     // 表达式测试,  表达式不能包含分号。这一点非常重要，一旦你在表达式后加上分号，它就会变成一条语句
     let y = {
@@ -11,8 +13,8 @@ fn main() {
     };
     println!("表达式求值: {}", y);
 
-    //dead_end();
-    wrapping_add();
+    // dead_end();
+    // wrapping_add();
     // 无返回值函数，默认返回()
     assert_eq!((), wrapping_add());
 
@@ -25,9 +27,10 @@ fn add(i: i32, j: i32) -> i32{
 }
 
 fn wrapping_add(){
+    // 无符号
     let a:u8 = 255;
     let b = a.wrapping_add(20);
-    // 19
+    // 输出:19 因为u8最大为255, 超出部分需要通过二进制计算 
     println!("The value of 255:u8 + 20 is {}", b);
     assert_eq!(19, b);
 }
@@ -76,18 +79,18 @@ fn bitwise_op(){
     // 2进制 00000011
     let b:i32=3;
 
-    //& 位与	相同位置均为1时则为1，否则为0
-    println!("(a & b) value is {}", (a & b));
+    //& 位与	相同位置均为1时则为1，否则为0 
+    println!("(a & b) value is {}", (a & b)); // 2
     //| 位或	相同位置只要有1时则为1，否则为0
-    println!("(a | b) value is {}", (a | b));
+    println!("(a | b) value is {}", (a | b)); // 3
     //^ 异或	相同位置不相同则为1，相同则为0
-    println!("(a ^ b) value is {}", (a ^ b));
+    println!("(a ^ b) value is {}", (a ^ b)); // 1
     // ! 位非	把位中的0和1相互取反，即0置为1，1置为0
-    println!("!b value is {}", !b);
+    println!("!b value is {}", !b); // -4
     //<< 左移	所有位向左移动指定位数，右位补零
-    println!("(a << b) value is {}", (a << b));
+    println!("(a << b) value is {}", (a << b)); // 16 2*2^3
     //>> 右移	所有位向右移动指定位数，左位补零
-    println!("(a >> b) value is {}", (a >> b));
+    println!("(a >> b) value is {}", (a >> b)); // 0
 
     let mut a = a;
     a <<= b;
@@ -104,7 +107,7 @@ fn bitwise_op(){
 fn number_type(){
     // 编译器自动推导, 默认i32
     let twenty = 20;
-    let twenty_one:i32 = 21;
+    let twenty_one: i32 = 21;
     let twenty_two = 22i32;
 
     let addition = twenty + twenty_one + twenty_two;

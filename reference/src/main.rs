@@ -33,6 +33,10 @@ fn test2(){
 }
 
 fn cal_length(s: &String) -> usize{
+    // 用函数为啥就不用 *s.len(), 应该会自动解包
+    // 如果直接访问, 如下, 需要*s2解引用拿到s1
+    // let s2 = &s1;
+    // assert_eq!(s1, *s2);
    return s.len();
 }
 
