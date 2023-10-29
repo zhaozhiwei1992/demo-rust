@@ -1,7 +1,14 @@
 // 导入外部文件struct
 mod traitDemo;
-use traitDemo::{Post, Weibo};
+use traitDemo::{Post, Weibo, largest};
 
+mod traitObjDemo;
+use traitObjDemo::{Screen};
+
+mod vectorDemo;
+mod vectorDemo2;
+
+mod hashMapDemo;
 fn main() {
     // test1();
     // test2();
@@ -47,9 +54,77 @@ fn main() {
     // generacs_test3();
 
     // 特征测试
-    trait_test1();
+    // trait_test1();
+    // trait_test2();
+    // trait_test3();
 
     // 数组测试
+    // vector_test1();
+    // vector_test2();
+    // vectorDemo::test1();
+    // 数组排序-简单类型
+    // vectorDemo::test2();
+    // vectorDemo2::test1();
+    // 数组排序-struct
+    // vectorDemo2::test2();
+
+    // HashMap测试
+    hashMapDemo::test1();
+    // hashMapDemo::test2();
+}
+
+fn vector_test2(){
+    // 基本类型数组迭代测试
+    let v = vec![3, 6, 9, 11, 13, 15];
+    for i in v.iter() {
+        println!("{i}");
+    }
+
+    for i in &v {
+        println!("{i}");
+    }
+
+    let mut v = vec![3, 6, 9, 11, 13, 15];
+    for i in &mut v {
+        // 动态修改value值输出, 会将数组修改
+        *i += 10;
+        println!("{i}");
+    }
+    println!("最终v是 {:?}", v);
+}
+
+fn vector_test1(){
+    let mut v = vec![1, 2, 3, 5, 6];
+    // 获取第三个元素, 下标, 这里用不用&都行,如果是复杂对象不用的话会转移所有权
+    let third = &v[2]; //可变借用
+    // v.push(999); //不可变借用
+    println!("第三个元素是: {third}");
+    // get方式
+    match v.get(2) {
+        Some(third) => println!("第三个元素是: {third}"),
+        None => println!("找不到, 搞丢了吧"),
+    }
+    println!("v 是: {:?}", v);
+}
+
+// 特征对象测试
+fn trait_test3() {
+    // 获取screen对象, 这个结构提创建对象有点坑, 必须得把里边属性都搞上才能生成
+    let screen = Screen{
+        components: vec![]
+    };
+    // 调用run方法, 将内部的依赖结构封装, 这里只负责调用run
+    screen.run();
+}
+
+fn trait_test2(){
+    let number_list = [2, 5, 8, 1, 0];
+    let result = largest(&number_list);
+    println!("获取number_list最大值为: {}", result);
+
+    let char_list = ['a', 'm', 'q', 'p'];
+    let result2 = largest(&char_list);
+    println!("获取char_list最大值为: {}", result2);
 }
 
 
